@@ -4,6 +4,8 @@ import AgentPipeline from "@/components/AgentPipeline";
 import RequirementsInput from "@/components/RequirementsInput";
 import TestCasesDashboard from "@/components/TestCasesDashboard";
 import MetricsEndpoint from "@/components/MetricsEndpoint";
+import AnalyticsDashboard from "@/components/AnalyticsDashboard";
+import IntegrationHelpers from "@/components/IntegrationHelpers";
 import heroImage from "@/assets/medtrace-hero.jpg";
 
 const Index = () => {
@@ -26,7 +28,7 @@ const Index = () => {
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-success rounded-full"></div>
-                  <span>US Core Patient Profile</span>
+                  <span>FHIR Patient Profile</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -52,10 +54,12 @@ const Index = () => {
       {/* Main Dashboard */}
       <main className="container mx-auto px-6 py-12">
         <Tabs defaultValue="pipeline" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="pipeline">Agent Pipeline</TabsTrigger>
             <TabsTrigger value="requirements">Requirements</TabsTrigger>
             <TabsTrigger value="results">Test Results</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="integrations">Integrations</TabsTrigger>
           </TabsList>
           
           <TabsContent value="pipeline" className="space-y-6">
@@ -68,6 +72,14 @@ const Index = () => {
           
           <TabsContent value="results" className="space-y-6">
             <TestCasesDashboard />
+          </TabsContent>
+          
+          <TabsContent value="analytics" className="space-y-6">
+            <AnalyticsDashboard />
+          </TabsContent>
+          
+          <TabsContent value="integrations" className="space-y-6">
+            <IntegrationHelpers />
           </TabsContent>
         </Tabs>
       </main>

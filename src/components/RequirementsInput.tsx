@@ -9,16 +9,16 @@ import { useState } from "react";
 const RequirementsInput = () => {
   const [docUrl, setDocUrl] = useState("");
   const [testCount, setTestCount] = useState("8");
-  const [requirements, setRequirements] = useState(`• US Core Patient resource must support read operation
+  const [requirements, setRequirements] = useState(`• FHIR Patient resource must support read operation
 • Patient search by identifier must return valid FHIR Bundle
-• All MustSupport elements must be populated in test data
+• All required elements must be populated in test data
 • Cardinality constraints must be validated for Patient.name
 • ValueSet bindings must be checked for Patient.gender`);
   
   const [parsedRequirements, setParsedRequirements] = useState([
-    { id: "REQ001", text: "US Core Patient resource must support read operation", deferred: false, reason: "" },
+    { id: "REQ001", text: "FHIR Patient resource must support read operation", deferred: false, reason: "" },
     { id: "REQ002", text: "Patient search by identifier must return valid FHIR Bundle", deferred: false, reason: "" },
-    { id: "REQ003", text: "All MustSupport elements must be populated in test data", deferred: true, reason: "Future iteration" },
+    { id: "REQ003", text: "All required elements must be populated in test data", deferred: true, reason: "Future iteration" },
     { id: "REQ004", text: "Cardinality constraints must be validated for Patient.name", deferred: false, reason: "" },
     { id: "REQ005", text: "ValueSet bindings must be checked for Patient.gender", deferred: false, reason: "" }
   ]);
@@ -80,7 +80,7 @@ const RequirementsInput = () => {
               <Label htmlFor="profile">FHIR Profile</Label>
               <Input
                 id="profile"
-                value="US Core Patient"
+                value="FHIR Patient"
                 readOnly
                 className="bg-muted"
               />

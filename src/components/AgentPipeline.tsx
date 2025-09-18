@@ -28,7 +28,7 @@ const AgentPipeline = () => {
     {
       id: "data",
       name: "Data",
-      description: "Pull US Core Patient profile/examples, normalize JSONL",
+      description: "Pull FHIR Patient profile/examples, normalize JSONL",
       status: "running",
       icon: Database,
       progress: 65
