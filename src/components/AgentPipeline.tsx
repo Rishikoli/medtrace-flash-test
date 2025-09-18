@@ -1,7 +1,10 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Database, CheckCircle, FileOutput, Clock, ArrowRight } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Brain, Database, CheckCircle, FileOutput, Clock, ArrowRight, FileText, AlertTriangle } from "lucide-react";
+import AgentHealthPanel from "./AgentHealthPanel";
 
 interface Agent {
   id: string;
@@ -66,6 +69,11 @@ const AgentPipeline = () => {
     }
   };
 
+  const pendingCount = agents.filter(a => a.status === "pending").length;
+  const errorAgents = agents.filter(a => a.status === "running" && Math.random() > 0.8); // Mock error condition
+  const showPendingAlert = pendingCount > 0; // In real app: check if pending > 2 minutes
+  const showErrorAlert = errorAgents.length > 0;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -75,6 +83,34 @@ const AgentPipeline = () => {
           <span>Est. 3 min remaining</span>
         </div>
       </div>
+
+      {/* Guardrail Alerts */}
+      {showPendingAlert && (
+        <Alert className="border-warning bg-warning/10">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Tasks have been pending for over 2 minutes. Consider re-pulling data.
+            <Button variant="link" className="p-0 ml-2 h-auto">
+              Trigger fix task
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      {showErrorAlert && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Agent errors detected. 
+            <Button variant="link" className="p-0 ml-2 h-auto text-destructive">
+              View evidence
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Agent Health Panel */}
+      <AgentHealthPanel />
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {agents.map((agent, index) => {
@@ -98,10 +134,13 @@ const AgentPipeline = () => {
                           "text-muted-foreground"
                         }`} />
                       </div>
-                      <Badge variant={getStatusColor(status) as any} className="text-xs">
+                      <Badge variant={getStatusColor(agent.status) as any} className="text-xs">
                         {getStatusText(agent.status)}
                       </Badge>
                     </div>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                      <FileText className="w-3 h-3" />
+                    </Button>
                   </div>
                   <CardTitle className="text-base">{agent.name}</CardTitle>
                   <CardDescription className="text-xs leading-relaxed">
@@ -115,6 +154,11 @@ const AgentPipeline = () => {
                       <span className="font-medium">{agent.progress}%</span>
                     </div>
                     <Progress value={agent.progress} className="h-2" />
+                    {agent.status === "running" && (
+                      <div className="w-full bg-primary/20 rounded-full h-1 overflow-hidden">
+                        <div className="h-full bg-primary rounded-full animate-pulse" style={{width: `${agent.progress}%`}} />
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

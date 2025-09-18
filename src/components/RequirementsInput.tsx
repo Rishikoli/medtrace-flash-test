@@ -8,11 +8,26 @@ import { useState } from "react";
 
 const RequirementsInput = () => {
   const [docUrl, setDocUrl] = useState("");
+  const [testCount, setTestCount] = useState("8");
   const [requirements, setRequirements] = useState(`• US Core Patient resource must support read operation
 • Patient search by identifier must return valid FHIR Bundle
 • All MustSupport elements must be populated in test data
 • Cardinality constraints must be validated for Patient.name
 • ValueSet bindings must be checked for Patient.gender`);
+  
+  const [parsedRequirements, setParsedRequirements] = useState([
+    { id: "REQ001", text: "US Core Patient resource must support read operation", deferred: false, reason: "" },
+    { id: "REQ002", text: "Patient search by identifier must return valid FHIR Bundle", deferred: false, reason: "" },
+    { id: "REQ003", text: "All MustSupport elements must be populated in test data", deferred: true, reason: "Future iteration" },
+    { id: "REQ004", text: "Cardinality constraints must be validated for Patient.name", deferred: false, reason: "" },
+    { id: "REQ005", text: "ValueSet bindings must be checked for Patient.gender", deferred: false, reason: "" }
+  ]);
+
+  const toggleDeferred = (id: string, reason: string = "") => {
+    setParsedRequirements(prev => prev.map(req => 
+      req.id === id ? { ...req, deferred: !req.deferred, reason: req.deferred ? "" : reason } : req
+    ));
+  };
 
   return (
     <div className="space-y-6">
@@ -84,7 +99,8 @@ const RequirementsInput = () => {
               <Input
                 id="test-count"
                 type="number"
-                value="8"
+                value={testCount}
+                onChange={(e) => setTestCount(e.target.value)}
                 min="1"
                 max="50"
               />
@@ -100,13 +116,62 @@ const RequirementsInput = () => {
             Review and edit requirements before processing
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <Textarea
             value={requirements}
             onChange={(e) => setRequirements(e.target.value)}
             rows={6}
             className="font-mono text-sm"
           />
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium">Parsed Requirements</Label>
+              <Button variant="outline" size="sm" onClick={() => {
+                const bullets = requirements.split('\n').filter(line => line.trim().startsWith('•'));
+                const parsed = bullets.map((bullet, idx) => ({
+                  id: `REQ${String(idx + 1).padStart(3, '0')}`,
+                  text: bullet.replace('•', '').trim(),
+                  deferred: false,
+                  reason: ""
+                }));
+                setParsedRequirements(parsed);
+              }}>
+                Re-parse
+              </Button>
+            </div>
+            
+            <div className="space-y-2 max-h-48 overflow-y-auto">
+              {parsedRequirements.map((req) => (
+                <div key={req.id} className={`flex items-center justify-between p-3 rounded-lg border ${req.deferred ? 'bg-muted/50' : 'bg-background'}`}>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-mono text-xs text-muted-foreground">{req.id}</span>
+                      {req.deferred && <span className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded">Deferred</span>}
+                    </div>
+                    <p className={`text-sm ${req.deferred ? 'text-muted-foreground line-through' : ''}`}>{req.text}</p>
+                    {req.deferred && req.reason && (
+                      <p className="text-xs text-muted-foreground italic">Reason: {req.reason}</p>
+                    )}
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => {
+                      if (!req.deferred) {
+                        const reason = prompt("Reason for deferring this requirement:");
+                        if (reason !== null) toggleDeferred(req.id, reason);
+                      } else {
+                        toggleDeferred(req.id);
+                      }
+                    }}
+                  >
+                    {req.deferred ? 'Include' : 'Defer'}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
 

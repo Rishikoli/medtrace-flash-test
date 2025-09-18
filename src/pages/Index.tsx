@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import AgentPipeline from "@/components/AgentPipeline";
 import RequirementsInput from "@/components/RequirementsInput";
 import TestCasesDashboard from "@/components/TestCasesDashboard";
+import MetricsEndpoint from "@/components/MetricsEndpoint";
 import heroImage from "@/assets/medtrace-hero.jpg";
 
 const Index = () => {
@@ -70,6 +71,9 @@ const Index = () => {
           </TabsContent>
         </Tabs>
       </main>
+      
+      {/* Hidden metrics endpoint for development */}
+      <MetricsEndpoint />
     </div>
   );
 };
