@@ -165,10 +165,13 @@ const TestCasesDashboard = () => {
   const pendingCount = testCases.filter(tc => tc.status === "pending").length;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Generated Test Cases</h2>
-        <div className="flex space-x-2">
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-3xl font-bold tracking-tight">Generated Test Cases</h2>
+          <p className="text-muted-foreground">FHIR compliance test cases with automated validation and evidence tracking</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" onClick={exportJsonl}>
             <Download className="w-4 h-4 mr-2" />
             Export JSONL
@@ -194,70 +197,126 @@ const TestCasesDashboard = () => {
         </div>
       </div>
 
-      {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm font-medium">Total Tests</span>
-            </div>
-            <p className="text-2xl font-bold mt-1">{testCases.length}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-success rounded-full"></div>
-              <span className="text-sm font-medium">Passed</span>
-            </div>
-            <p className="text-2xl font-bold mt-1 text-success">{passCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-destructive rounded-full"></div>
-              <span className="text-sm font-medium">Failed</span>
-            </div>
-            <p className="text-2xl font-bold mt-1 text-destructive">{failCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-warning rounded-full"></div>
-              <span className="text-sm font-medium">Pending</span>
-            </div>
-            <p className="text-2xl font-bold mt-1 text-warning">{pendingCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
+      {/* Enhanced KPI Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-primary/5 to-primary/10 hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
+              <div className="space-y-2">
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span className="text-sm font-medium">Pass Rate</span>
+                  <div className="p-1.5 bg-primary/20 rounded-full">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Total Tests</span>
                 </div>
-                <p className="text-2xl font-bold mt-1">{Math.round((passCount / testCases.length) * 100)}%</p>
+                <p className="text-3xl font-bold">{testCases.length}</p>
               </div>
-              <div className="text-primary">
-                <Sparkline data={passRateHistory} />
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-primary" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-success/5 to-success/10 hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-1.5 bg-success/20 rounded-full">
+                    <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Passed</span>
+                </div>
+                <p className="text-3xl font-bold text-success">{passCount}</p>
+              </div>
+              <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-success" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-destructive/5 to-destructive/10 hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-1.5 bg-destructive/20 rounded-full">
+                    <div className="w-2 h-2 bg-destructive rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Failed</span>
+                </div>
+                <p className="text-3xl font-bold text-destructive">{failCount}</p>
+              </div>
+              <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center">
+                <XCircle className="w-6 h-6 text-destructive" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-warning/5 to-warning/10 hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-1.5 bg-warning/20 rounded-full">
+                    <div className="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Pending</span>
+                </div>
+                <p className="text-3xl font-bold text-warning">{pendingCount}</p>
+              </div>
+              <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6 text-warning" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-secondary/5 to-secondary/10 hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-1.5 bg-secondary/20 rounded-full">
+                    <div className="w-2 h-2 bg-secondary-foreground rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Pass Rate</span>
+                </div>
+                <p className="text-3xl font-bold">{Math.round((passCount / testCases.length) * 100)}%</p>
+              </div>
+              <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                <div className="text-secondary-foreground">
+                  <Sparkline data={passRateHistory} />
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Test Cases</CardTitle>
-          <CardDescription>
-            FHIR compliance test cases generated from requirements
-          </CardDescription>
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-background to-muted/10">
+        <CardHeader className="pb-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <CardTitle className="text-xl font-bold">Test Cases</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                FHIR compliance test cases generated from requirements with automated validation
+              </CardDescription>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
+                {testCases.length} Total
+              </Badge>
+              <Badge variant="outline" className="bg-success/5 text-success border-success/20">
+                {Math.round((passCount / testCases.length) * 100)}% Pass Rate
+              </Badge>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <Table>
             <TableHeader>
               <TableRow>

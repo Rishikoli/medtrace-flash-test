@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, DollarSign, Clock, Target, Activity } from "lucide-react";
+import { TrendingUp, DollarSign, Clock, Target, Activity, ArrowUpRight, ArrowDownRight, Download, RefreshCw, Zap } from "lucide-react";
 
 const AnalyticsDashboard = () => {
   // Mock data for charts
@@ -42,66 +44,172 @@ const AnalyticsDashboard = () => {
   const formatLatency = (value: number) => `${value}ms`;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Analytics Dashboard</h2>
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Activity className="w-4 h-4" />
-          <span>Last 7 days</span>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h2>
+          <p className="text-muted-foreground">Monitor performance, costs, and test execution trends</p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
+            <Activity className="w-3 h-3 mr-1" />
+            Live Data
+          </Badge>
+          <Button variant="outline" size="sm">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh
+          </Button>
+          <Button variant="outline" size="sm">
+            <Download className="w-4 h-4 mr-2" />
+            Export
+          </Button>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Target className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">Avg Success Rate</span>
+      {/* Enhanced KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-success/5 to-success/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-success/10 rounded-lg">
+                    <Target className="w-4 h-4 text-success" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Success Rate</span>
+                </div>
+                <p className="text-3xl font-bold">89.2%</p>
+                <div className="flex items-center space-x-1 text-xs">
+                  <ArrowUpRight className="w-3 h-3 text-success" />
+                  <span className="text-success font-medium">+2.1%</span>
+                  <span className="text-muted-foreground">vs last week</span>
+                </div>
+              </div>
+              <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center">
+                <Zap className="w-8 h-8 text-success" />
+              </div>
             </div>
-            <p className="text-2xl font-bold mt-1">89.2%</p>
-            <p className="text-xs text-success">+2.1% from last week</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4 text-warning" />
-              <span className="text-sm font-medium">Avg Runtime</span>
+
+        <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-warning/5 to-warning/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-warning/10 rounded-lg">
+                    <Clock className="w-4 h-4 text-warning" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Avg Runtime</span>
+                </div>
+                <p className="text-3xl font-bold">3.2min</p>
+                <div className="flex items-center space-x-1 text-xs">
+                  <ArrowDownRight className="w-3 h-3 text-success" />
+                  <span className="text-success font-medium">-0.3min</span>
+                  <span className="text-muted-foreground">vs last week</span>
+                </div>
+              </div>
+              <div className="w-16 h-16 bg-warning/10 rounded-full flex items-center justify-center">
+                <Clock className="w-8 h-8 text-warning" />
+              </div>
             </div>
-            <p className="text-2xl font-bold mt-1">3.2min</p>
-            <p className="text-xs text-success">-0.3min from last week</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <DollarSign className="w-4 h-4 text-success" />
-              <span className="text-sm font-medium">Avg Cost</span>
+
+        <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <DollarSign className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Avg Cost</span>
+                </div>
+                <p className="text-3xl font-bold">$0.91</p>
+                <div className="flex items-center space-x-1 text-xs">
+                  <ArrowDownRight className="w-3 h-3 text-success" />
+                  <span className="text-success font-medium">-$0.05</span>
+                  <span className="text-muted-foreground">vs last week</span>
+                </div>
+              </div>
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                <DollarSign className="w-8 h-8 text-primary" />
+              </div>
             </div>
-            <p className="text-2xl font-bold mt-1">$0.91</p>
-            <p className="text-xs text-success">-$0.05 from last week</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">Total Runs</span>
+
+        <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-secondary/5 to-secondary/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-secondary/10 rounded-lg">
+                    <TrendingUp className="w-4 h-4 text-secondary-foreground" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">Total Runs</span>
+                </div>
+                <p className="text-3xl font-bold">347</p>
+                <div className="flex items-center space-x-1 text-xs">
+                  <ArrowUpRight className="w-3 h-3 text-success" />
+                  <span className="text-success font-medium">+23</span>
+                  <span className="text-muted-foreground">vs last week</span>
+                </div>
+              </div>
+              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center">
+                <Activity className="w-8 h-8 text-secondary-foreground" />
+              </div>
             </div>
-            <p className="text-2xl font-bold mt-1">347</p>
-            <p className="text-xs text-success">+23 from last week</p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="trends" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="trends">Execution Trends</TabsTrigger>
-          <TabsTrigger value="success">Success Rates</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="costs">Cost Analysis</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="trends" className="space-y-6">
+        <div className="flex justify-center">
+          <TabsList className="grid grid-cols-4 w-full max-w-2xl bg-muted/30 p-1 rounded-xl border">
+            <TabsTrigger
+              value="trends"
+              className="data-[state=active]:bg-background data-[state=active]:shadow-md rounded-lg transition-all duration-200 font-medium"
+            >
+              <div className="flex items-center space-x-2">
+                <TrendingUp className="w-4 h-4" />
+                <span className="hidden sm:inline">Execution Trends</span>
+                <span className="sm:hidden">Trends</span>
+              </div>
+            </TabsTrigger>
+            <TabsTrigger
+              value="success"
+              className="data-[state=active]:bg-background data-[state=active]:shadow-md rounded-lg transition-all duration-200 font-medium"
+            >
+              <div className="flex items-center space-x-2">
+                <Target className="w-4 h-4" />
+                <span className="hidden sm:inline">Success Rates</span>
+                <span className="sm:hidden">Success</span>
+              </div>
+            </TabsTrigger>
+            <TabsTrigger
+              value="performance"
+              className="data-[state=active]:bg-background data-[state=active]:shadow-md rounded-lg transition-all duration-200 font-medium"
+            >
+              <div className="flex items-center space-x-2">
+                <Zap className="w-4 h-4" />
+                <span className="hidden sm:inline">Performance</span>
+                <span className="sm:hidden">Perf</span>
+              </div>
+            </TabsTrigger>
+            <TabsTrigger
+              value="costs"
+              className="data-[state=active]:bg-background data-[state=active]:shadow-md rounded-lg transition-all duration-200 font-medium"
+            >
+              <div className="flex items-center space-x-2">
+                <DollarSign className="w-4 h-4" />
+                <span className="hidden sm:inline">Cost Analysis</span>
+                <span className="sm:hidden">Costs</span>
+              </div>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="trends" className="space-y-4">
           <Card>
@@ -115,7 +223,7 @@ const AnalyticsDashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" tickFormatter={(value) => new Date(value).toLocaleDateString()} />
                   <YAxis />
-                  <Tooltip 
+                  <Tooltip
                     labelFormatter={(value) => new Date(value).toLocaleDateString()}
                     formatter={(value, name) => [value, name === 'cost' ? formatCurrency(value as number) : value]}
                   />
@@ -138,7 +246,7 @@ const AnalyticsDashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" tickFormatter={(value) => new Date(value).toLocaleDateString()} />
                   <YAxis tickFormatter={formatCurrency} />
-                  <Tooltip 
+                  <Tooltip
                     labelFormatter={(value) => new Date(value).toLocaleDateString()}
                     formatter={(value) => [formatCurrency(value as number), 'Cost']}
                   />
@@ -185,9 +293,9 @@ const AnalyticsDashboard = () => {
                   <XAxis dataKey="agent" />
                   <YAxis yAxisId="latency" orientation="left" tickFormatter={formatLatency} />
                   <YAxis yAxisId="throughput" orientation="right" />
-                  <Tooltip 
+                  <Tooltip
                     formatter={(value, name) => [
-                      name.includes('Latency') ? formatLatency(value as number) : value,
+                      typeof name === 'string' && name.includes('Latency') ? formatLatency(value as number) : value,
                       name
                     ]}
                   />

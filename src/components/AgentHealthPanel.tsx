@@ -130,15 +130,23 @@ const AgentHealthPanel = () => {
   const formatTime = (date: Date) => new Date(date).toLocaleTimeString();
 
   return (
-    <Card className="mb-6">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
-            <Activity className="w-4 h-4 text-primary" />
-            <h3 className="font-medium">Agent Health</h3>
+    <Card className="mb-8 border-0 shadow-lg bg-gradient-to-br from-background to-muted/10">
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Activity className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold">Agent Health Monitor</h3>
+              <p className="text-sm text-muted-foreground">Real-time system status and performance metrics</p>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground">
-            Last updated: {formatTime(new Date())}
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+            <div className="text-xs text-muted-foreground">
+              Updated: {formatTime(new Date())}
+            </div>
           </div>
         </div>
 

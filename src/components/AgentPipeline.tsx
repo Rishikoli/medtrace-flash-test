@@ -112,61 +112,77 @@ const AgentPipeline = () => {
       {/* Agent Health Panel */}
       <AgentHealthPanel />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {agents.map((agent, index) => {
           const Icon = agent.icon;
           return (
             <div key={agent.id} className="relative">
-              <Card className={`transition-all duration-200 ${
-                agent.status === "running" ? "ring-2 ring-primary/20 shadow-lg" : ""
+              <Card className={`transition-all duration-300 hover:shadow-xl border-0 ${
+                agent.status === "running" 
+                  ? "ring-2 ring-primary/30 shadow-lg bg-gradient-to-br from-primary/5 to-primary/10" 
+                  : agent.status === "completed"
+                  ? "bg-gradient-to-br from-success/5 to-success/10"
+                  : "bg-gradient-to-br from-muted/20 to-muted/5"
               }`}>
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className={`p-2 rounded-lg ${
-                        agent.status === "completed" ? "bg-success/10" :
-                        agent.status === "running" ? "bg-warning/10" :
-                        "bg-muted"
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-3 rounded-xl shadow-sm ${
+                        agent.status === "completed" ? "bg-success/10 ring-2 ring-success/20" :
+                        agent.status === "running" ? "bg-warning/10 ring-2 ring-warning/20 animate-pulse" :
+                        "bg-muted/50"
                       }`}>
-                        <Icon className={`w-4 h-4 ${
+                        <Icon className={`w-5 h-5 ${
                           agent.status === "completed" ? "text-success" :
                           agent.status === "running" ? "text-warning" :
                           "text-muted-foreground"
                         }`} />
                       </div>
-                      <Badge variant={getStatusColor(agent.status) as any} className="text-xs">
+                      <Badge 
+                        variant={getStatusColor(agent.status) as any} 
+                        className={`text-xs font-medium ${
+                          agent.status === "running" ? "animate-pulse" : ""
+                        }`}
+                      >
                         {getStatusText(agent.status)}
                       </Badge>
                     </div>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                      <FileText className="w-3 h-3" />
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-muted/50">
+                      <FileText className="w-4 h-4" />
                     </Button>
                   </div>
-                  <CardTitle className="text-base">{agent.name}</CardTitle>
-                  <CardDescription className="text-xs leading-relaxed">
-                    {agent.description}
-                  </CardDescription>
+                  <div className="space-y-2">
+                    <CardTitle className="text-lg font-bold">{agent.name}</CardTitle>
+                    <CardDescription className="text-sm leading-relaxed text-muted-foreground">
+                      {agent.description}
+                    </CardDescription>
+                  </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted-foreground">Progress</span>
-                      <span className="font-medium">{agent.progress}%</span>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground font-medium">Progress</span>
+                      <span className="font-bold text-foreground">{agent.progress}%</span>
                     </div>
-                    <Progress value={agent.progress} className="h-2" />
-                    {agent.status === "running" && (
-                      <div className="w-full bg-primary/20 rounded-full h-1 overflow-hidden">
-                        <div className="h-full bg-primary rounded-full animate-pulse" style={{width: `${agent.progress}%`}} />
-                      </div>
-                    )}
+                    <div className="space-y-2">
+                      <Progress value={agent.progress} className="h-3 bg-muted/30" />
+                      {agent.status === "running" && (
+                        <div className="w-full bg-primary/10 rounded-full h-1 overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full animate-pulse" 
+                            style={{width: `${agent.progress}%`}} 
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
               
               {index < agents.length - 1 && (
-                <div className="absolute top-1/2 -right-2 transform -translate-y-1/2 z-10 hidden lg:block">
-                  <div className="w-4 h-4 bg-background border-2 border-muted rounded-full flex items-center justify-center">
-                    <ArrowRight className="w-2 h-2 text-muted-foreground" />
+                <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 z-10 hidden lg:block">
+                  <div className="w-6 h-6 bg-background border-2 border-primary/20 rounded-full flex items-center justify-center shadow-sm">
+                    <ArrowRight className="w-3 h-3 text-primary" />
                   </div>
                 </div>
               )}

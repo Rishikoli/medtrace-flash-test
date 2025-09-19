@@ -30,18 +30,23 @@ const RequirementsInput = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Requirements Input</h2>
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Requirements Input</h2>
+        <p className="text-muted-foreground">Upload and configure your healthcare requirement documents for FHIR compliance testing</p>
+      </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Upload className="w-5 h-5" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-background to-muted/20">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center space-x-3 text-xl">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Upload className="w-5 h-5 text-primary" />
+              </div>
               <span>Document Upload</span>
             </CardTitle>
-            <CardDescription>
-              Upload or link to your requirements document
+            <CardDescription className="text-muted-foreground">
+              Upload or link to your healthcare requirements document
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
